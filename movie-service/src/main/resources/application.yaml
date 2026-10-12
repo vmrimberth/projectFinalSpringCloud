@@ -1,0 +1,45 @@
+server:
+  port: 51100
+  shutdown: graceful  # Espera a que los requests en vuelo terminen antes de cerrar
+  servlet:
+    context-path: /api/v1  # Base path de todos los endpoints del servicio
+
+spring:
+  application:
+    name: movie-service
+  boot:
+    version: 4.0.3
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/moviedb
+    username: ${POSTGRES_USER:admin}
+    password: ${POSTGRES_PASSWORD:admin123}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+
+  jackson:
+    mapper:
+      # Permite enviar categorías en cualquier case: "electronics", "ELECTRONICS", "Electronics"
+      accept-case-insensitive-enums: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        # health: estado del servicio (UP/DOWN)
+        # info: información del servicio (nombre, versión)
+        # En módulos posteriores se agregarán: metrics, prometheus, env
+        include: health, info
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    com.rvmsoft.moviebooking: DEBUG

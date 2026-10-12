@@ -1,0 +1,22 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Prometheus — Configuración de scraping para microservicios E-Commerce
+#
+# Los microservicios corren en el HOST. Prometheus corre en Docker.
+# Para acceder al host desde un contenedor Docker en Linux se usa
+# el alias especial "host.docker.internal" (mapeado con extra_hosts).
+#
+# context-path de los servicios MVC: /api/v1
+#   → actuator en /api/v1/actuator/prometheus
+#
+# API Gateway (WebFlux): sin context-path
+#   → actuator en /actuator/prometheus
+# ─────────────────────────────────────────────────────────────────────────────
+
+global:
+  # Con qué frecuencia Prometheus raspa las métricas
+  scrape_interval: 5s
+  # Con qué frecuencia evalúa las reglas de alertas
+  evaluation_interval: 5s
+  # Etiqueta fija añadida a todas las métricas
+  external_labels:
+    cluster: moviebooking-dev

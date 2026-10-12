@@ -1,0 +1,367 @@
+{
+  "info": {
+    "_postman_id": "5a13f645-f56f-4394-8e02-c885e14884e7",
+    "name": "MovieBookingCollection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "56890460",
+    "_collection_link": "https://go.postman.co/collection/56890460-5a13f645-f56f-4394-8e02-c885e14884e7?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "MovieService",
+      "item": [
+        {
+          "name": "Movie",
+          "item": [
+            {
+              "name": "Get All Movie",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{movieServiceUrl}}/api/v1/movies",
+                  "host": [
+                    "{{movieServiceUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "movies"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get Movie By Id",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{movieServiceUrl}}/api/v1/movies/{{movieId}}",
+                  "host": [
+                    "{{movieServiceUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "movies",
+                    "{{movieId}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Create Movie",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"title\": \"Spiderman\",\r\n    \"director\": \"Christopher Nolan\",\r\n    \"genre\": \"SCI_FI\",\r\n    \"durationMin\": 169,\r\n    \"rating\": \"PG-13\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{movieServiceUrl}}/api/v1/movies",
+                  "host": [
+                    "{{movieServiceUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "movies"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Update Movie",
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"title\": \"Dune: Part Two (Extended)\",\r\n    \"director\": \"Denis Villeneuve\",\r\n    \"genre\": \"SCI_FI\",\r\n    \"durationMin\": 180,\r\n    \"rating\": \"PG-13\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{movieServiceUrl}}/api/v1/movies/{{movieId}}",
+                  "host": [
+                    "{{movieServiceUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "movies",
+                    "{{movieId}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Delete Movie",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{movieServiceUrl}}/api/v1/movies/{{movieId}}",
+                  "host": [
+                    "{{movieServiceUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "movies",
+                    "{{movieId}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Deactivate Movie",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "url": {
+                  "raw": "{{movieServiceUrl}}/api/v1/movies/{{movieId}}/deactivate",
+                  "host": [
+                    "{{movieServiceUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "movies",
+                    "{{movieId}}",
+                    "deactivate"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Activate Movie",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "url": {
+                  "raw": "{{movieServiceUrl}}/api/v1/movies/{{movieId}}/activate",
+                  "host": [
+                    "{{movieServiceUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "movies",
+                    "{{movieId}}",
+                    "activate"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Screening",
+          "item": [
+            {
+              "name": "Get All Screening",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{movieServiceUrl}}/api/v1/screenings",
+                  "host": [
+                    "{{movieServiceUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "screenings"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get Screening By Id",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{movieServiceUrl}}/api/v1/screenings/{{screeningId}}",
+                  "host": [
+                    "{{movieServiceUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "screenings",
+                    "{{screeningId}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Create Screening",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"movieId\": \"{{movieId}}\",\r\n    \"room\": \"Sala VIP\",\r\n    \"showAt\": \"2026-11-20T21:00:00\",\r\n    \"totalSeats\": 30\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{movieServiceUrl}}/api/v1/screenings",
+                  "host": [
+                    "{{movieServiceUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "screenings"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Reserve Seat",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "url": {
+                  "raw": "{{movieServiceUrl}}/api/v1/screenings/{{screeningId}}/reserve",
+                  "host": [
+                    "{{movieServiceUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "screenings",
+                    "{{screeningId}}",
+                    "reserve"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "New Request",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "url": {
+                  "raw": "{{movieServiceUrl}}/api/v1/screenings/{{screeningId}}/release",
+                  "host": [
+                    "{{movieServiceUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "screenings",
+                    "{{screeningId}}",
+                    "release"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "BookingService",
+      "item": [
+        {
+          "name": "Get Booking By Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{bookingServiceUrl}}/api/v1/bookings/{{bookingId}}",
+              "host": [
+                "{{bookingServiceUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "bookings",
+                "{{bookingId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Booking",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"screeningId\": \"{{screeningId}}\",\r\n    \"customerId\": \"{{customerId}}\",\r\n    \"totalAmount\": 15.50\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{bookingServiceUrl}}/api/v1/bookings",
+              "host": [
+                "{{bookingServiceUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "bookings"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Cancel Booking",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{bookingServiceUrl}}/api/v1/bookings/{{bookingId}}/cancel",
+              "host": [
+                "{{bookingServiceUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "bookings",
+                "{{bookingId}}",
+                "cancel"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

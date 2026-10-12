@@ -1,0 +1,96 @@
+services:
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # BASE DE DATOS — PostgreSQL (instancia única)
+  #
+  # Un solo contenedor PostgreSQL con múltiples bases de datos.
+  # Cada microservicio tiene su propia BD para respetar el patrón
+  # Database-per-Service, pero comparten la misma instancia en desarrollo
+  # para ahorrar recursos.
+  #
+  # Acceso externo (desde el host): localhost:5432
+  # Acceso interno (entre servicios): postgres-ms:5432
+  #
+  # Las BDs adicionales se crean mediante el script init-db/create-databases.sql
+  # que PostgreSQL ejecuta automáticamente la primera vez que arranca.
+  # ─────────────────────────────────────────────────────────────────────────────
+
+  postgres-ms:
+    image: postgres:16-alpine
+    container_name: postgres-ms
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: moviedb
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data-task:/var/lib/postgresql/data
+      - ./init-db:/docker-entrypoint-initdb.d
+    networks:
+      - moviebooking-network
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d moviedb" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # HERRAMIENTA DE ADMINISTRACIÓN — pgAdmin
+  # Interfaz web para gestionar las bases de datos PostgreSQL
+  # Acceso: http://localhost:5050
+  # ─────────────────────────────────────────────────────────────────────────────
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
+    ports:
+      - "5050:80"
+    networks:
+      - moviebooking-network
+    depends_on:
+      postgres-ms:
+        condition: service_healthy
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # PORTAINER — UI para gestionar contenedores Docker en tiempo real
+  # Acceso: http://localhost:9001
+  # Primer acceso: crear usuario admin con contraseña (mínimo 12 chars)
+  # ─────────────────────────────────────────────────────────────────────────────
+
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    restart: unless-stopped
+    ports:
+      - "9001:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer-data-task:/data
+    networks:
+      - moviebooking-network
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# RED — Todos los servicios comparten esta red para comunicarse por nombre
+# Ejemplo: postgres-ms:5432, payment-gateway-service:59900
+# ─────────────────────────────────────────────────────────────────────────────
+
+networks:
+  moviebooking-network:
+    name: moviebooking-network
+    driver: bridge
+
+# ─────────────────────────────────────────────────────────────────────────────
+# VOLÚMENES — Persistencia de datos entre reinicios del contenedor
+# ─────────────────────────────────────────────────────────────────────────────
+
+volumes:
+  postgres-data-task:
+  portainer-data-task:
