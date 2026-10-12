@@ -65,8 +65,7 @@ public class AuthController {
         );
 
         TokenResponse tokenResponse = jwtService.generateTokens(authentication);
-        //return ResponseEntity.ok(tokenResponse);
-        return null;
+        return ResponseEntity.ok(tokenResponse);
     }
 
     /**
@@ -75,8 +74,7 @@ public class AuthController {
      */
     @PostMapping("/refresh")
     public ResponseEntity<TokenResponse> refresh(@Valid @RequestBody RefreshRequest request) {
-        //TokenResponse tokenResponse = jwtService.refreshTokens(request.refreshToken());
-        //return ResponseEntity.ok(tokenResponse);
-        return null;
+        TokenResponse tokenResponse = jwtService.refreshTokens(request.refreshToken());
+        return ResponseEntity.ok(tokenResponse);
     }
 }
