@@ -2,6 +2,8 @@ package com.rvmsoft.moviebooking.movie.api;
 
 import com.rvmsoft.moviebooking.movie.api.dto.*;
 import com.rvmsoft.moviebooking.movie.application.MovieService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,6 +79,11 @@ public class MovieController {
         return ResponseEntity.created(location).body(response);
     }
 
+    @Operation(
+            summary = "Obtner todas las Movies",
+            description = "Retorna el listado de todas las movies",
+            security = @SecurityRequirement(name = "bearerAuth")
+    )
     @GetMapping
     public ResponseEntity<List<MovieResponse>> findAll(@RequestHeader(value = "X-Api-Version", required = false) String apiVersion) {
         logger.info("Fetching all movies in API version: {}", apiVersion);

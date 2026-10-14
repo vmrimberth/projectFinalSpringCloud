@@ -40,6 +40,21 @@ management:
     health:
       show-details: always
 
+# ── OpenAPI / Swagger UI ────────────────────────────────────────────────────
+# Demuestra: objetos anidados (CreateOrderRequest → List<OrderItemRequest>)
+# y máquina de estados documentada (OrderStatus: PENDING/CONFIRMED/CANCELLED)
+# Swagger UI: http://localhost:50300/api/v1/swagger-ui.html
+# OpenAPI JSON spec: http://localhost:50300/api/v1/v3/api-docs
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    try-it-out-enabled: true
+    operationsSorter: method
+    tagsSorter: alpha
+  api-docs:
+    path: /v3/api-docs
+  show-actuator: true
+
 logging:
   level:
     com.rvmsoft.moviebooking: DEBUG
