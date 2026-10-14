@@ -34,6 +34,7 @@ import java.util.UUID;
  * Toda la lógica de negocio vive en ProductService.
  */
 
+@Tag(name = "Movies Service", description = "Endpoints para Movies Service")
 @RestController
 @RequestMapping("/movies")
 public class MovieController {
@@ -66,6 +67,21 @@ public class MovieController {
 
     // ── Módulo 02: CRUD ───────────────────────────────────────────────────────
 
+    @Operation(
+            summary = "Crear Movies",
+            description = "Crear nuevo registro de Movies",
+            security = @SecurityRequirement(name = "bearerAuth")
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Movie creada",
+                    content = @Content(schema = @Schema(implementation = MovieResponse.class))),
+            @ApiResponse(responseCode = "400", description = "Validación de campos",
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "401", description = "JWT ausente o inválido",
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "422", description = "Violación de una regla de negocio",
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class)))
+    })
     @PostMapping
     public ResponseEntity<MovieResponse> create(@Valid @RequestBody MovieRequest request) {
         MovieResponse response = movieService.create(request);
@@ -80,21 +96,51 @@ public class MovieController {
     }
 
     @Operation(
-            summary = "Obtner todas las Movies",
+            summary = "Encontrar todas las Movies",
             description = "Retorna el listado de todas las movies",
             security = @SecurityRequirement(name = "bearerAuth")
     )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Listado de Movies",
+                    content = @Content(schema = @Schema(implementation = MovieResponse.class)))
+    })
     @GetMapping
     public ResponseEntity<List<MovieResponse>> findAll(@RequestHeader(value = "X-Api-Version", required = false) String apiVersion) {
         logger.info("Fetching all movies in API version: {}", apiVersion);
         return ResponseEntity.ok(movieService.findAll());
     }
 
+    @Operation(
+            summary = "Encontrar Movie por id",
+            description = "Retorna un objeto Movie en base al parametro idMovie",
+            security = @SecurityRequirement(name = "bearerAuth")
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Movie encontrada",
+                    content = @Content(schema = @Schema(implementation = MovieResponse.class))),
+            @ApiResponse(responseCode = "404", description = "Movie inexistente",
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class)))
+    })
     @GetMapping("/{id}")
     public ResponseEntity<MovieResponse> findById(@PathVariable UUID id) {
         return ResponseEntity.ok(movieService.findById(id));
     }
 
+    @Operation(
+            summary = "Actualizar Movie",
+            description = "Actualiza los datos de una Movie",
+            security = @SecurityRequirement(name = "bearerAuth")
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Movie actualizada",
+                    content = @Content(schema = @Schema(implementation = MovieResponse.class))),
+            @ApiResponse(responseCode = "400", description = "Validación de campos",
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "401", description = "JWT ausente o inválido",
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "404", description = "Movie inexistente",
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class)))
+    })
     @PutMapping("/{id}")
     public ResponseEntity<MovieResponse> update(
             @PathVariable UUID id,
@@ -102,6 +148,18 @@ public class MovieController {
         return ResponseEntity.ok(movieService.update(id, request));
     }
 
+    @Operation(
+            summary = "Eliminar Movie",
+            description = "Elimina el registro de una Movie",
+            security = @SecurityRequirement(name = "bearerAuth")
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Movie eliminada", content = @Content),
+            @ApiResponse(responseCode = "401", description = "JWT ausente o inválido",
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "404", description = "Movie inexistente",
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class)))
+    })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
         movieService.delete(id);
@@ -110,11 +168,37 @@ public class MovieController {
 
     // ── Módulo 03: DDD — operaciones de dominio ───────────────────────────────
 
+    @Operation(
+            summary = "Activar Movie",
+            description = "Actualiza el estado a activo de una Movie",
+            security = @SecurityRequirement(name = "bearerAuth")
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Movie activada",
+                    content = @Content(schema = @Schema(implementation = MovieResponse.class))),
+            @ApiResponse(responseCode = "401", description = "JWT ausente o inválido",
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "404", description = "Movie inexistente",
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class)))
+    })
     @PatchMapping("/{id}/activate")
     public ResponseEntity<MovieResponse> activate(@PathVariable UUID id) {
         return ResponseEntity.ok(movieService.activate(id));
     }
 
+    @Operation(
+            summary = "Inactivar Movie",
+            description = "Actualiza el estado a inactivo de una Movie",
+            security = @SecurityRequirement(name = "bearerAuth")
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Movie desactivada",
+                    content = @Content(schema = @Schema(implementation = MovieResponse.class))),
+            @ApiResponse(responseCode = "401", description = "JWT ausente o inválido",
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "404", description = "Movie inexistente",
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class)))
+    })
     @PatchMapping("/{id}/deactivate")
     public ResponseEntity<MovieResponse> deactivate(@PathVariable UUID id) {
         return ResponseEntity.ok(movieService.deactivate(id));
