@@ -16,8 +16,20 @@
             {
               "name": "Get All Movie",
               "request": {
+                "auth": {
+                  "type": "noauth"
+                },
                 "method": "GET",
                 "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
                 "url": {
                   "raw": "{{movieServiceUrl}}/api/v1/movies",
                   "host": [
@@ -295,6 +307,16 @@
         {
           "name": "Get Booking By Id",
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accesToken}}",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "GET",
             "header": [],
             "url": {
@@ -315,6 +337,16 @@
         {
           "name": "Create Booking",
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accesToken}}",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "POST",
             "header": [],
             "body": {
@@ -343,6 +375,16 @@
         {
           "name": "Cancel Booking",
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accesToken}}",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "PATCH",
             "header": [],
             "url": {
@@ -373,7 +415,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"username\":\"maria\",\r\n    \"password\":\"pedropedro\",\r\n    \"role\":\"USER\"\r\n}",
+              "raw": "{\r\n    \"username\":\"vanesa\",\r\n    \"password\":\"pedropedro\",\r\n    \"role\":\"USER\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -402,7 +444,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"username\":\"maria\",\r\n    \"password\":\"pedropedro\"\r\n}",
+              "raw": "{\r\n    \"username\":\"vanesa\",\r\n    \"password\":\"pedropedro\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -420,6 +462,17 @@
                 "auth",
                 "login"
               ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST Refresh Token",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": ""
             }
           },
           "response": []
